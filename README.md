@@ -1,4 +1,4 @@
-# Job Portal Backend
+# HireBase – Job Portal Backend
 
 Backend API for a Job Portal application where **employers can post jobs** and **employees can browse, apply, and save jobs**.
 This project provides a structured REST API using Node.js, Express.js, and MongoDB.
