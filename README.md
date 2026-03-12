@@ -76,7 +76,7 @@ JWT_SECRET=your_secret_key
 ### 5. Run the server
 
 ```bash
-npm start
+npm run dev
 ```
 
 The server should now be running on:
