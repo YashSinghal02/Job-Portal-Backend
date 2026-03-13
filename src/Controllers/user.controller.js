@@ -82,11 +82,11 @@ const login = async (req, res) => {
   }
 
   // jwt token for cookie
-  const data = { id: "xd$hgyf_up9y9y", role: "employee" };
+  const data = { id: user._id, role: user.role };
   const accessToken = jwt.sign(data, "qwer", { expiresIn: "15m" });
   console.log(accessToken);
 
-  const refreshToken = jwt.sign(data, "asd", { expiresIn: "7d" });
+  const refreshToken = jwt.sign(data, "asd", { expiresIn: "30d" });
 
   // set jwt token in cookies
   // res.cookie("token",refreshToken)
@@ -137,7 +137,24 @@ const testController = async (req, res) => {
   res.send("You Are Authenticated");
 };
 
-export { signUp, login, otpsend, testController, refreshtokenController };
+
+// getJobs  of particular user 
+
+const getUserData=async(req,res)=>{
+  const{userId}=req.params;
+  console.log(userId);
+  if (!userId) {
+    throw new CustomError(400,"User Id Not Found")
+  }
+
+  const userData=await User.findById(userId).populate("createdJobs");
+
+    successHandler(res, 201, "success", "Job Fetched Successfully",userData);
+
+
+}
+
+export { signUp, login, otpsend, testController, refreshtokenController,getUserData };
 
 // // Post
 // const signUp= async (req, res) => {

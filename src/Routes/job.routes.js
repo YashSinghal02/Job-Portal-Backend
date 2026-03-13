@@ -1,20 +1,25 @@
 import express from "express";
-import { jobcardget, jobPost,deleteJob,editJob,getJobById } from "../Controllers/jobcreated.controller.js";
+import { jobcardget, jobPost,deleteJob,editJob,getJobById,getAllJobs } from "../Controllers/jobcreated.controller.js";
 import asyncHandler from "../Middlewares/asyncHandler.js";
+import { authCheck } from "../Middlewares/authCheck.js";
+
 
 const employerRoute=express.Router();
 
 // jobcreate
 employerRoute.post("/jobs/:userId", asyncHandler(jobPost));
 
+// getAllJobs
+employerRoute.get("/jobs", asyncHandler(getAllJobs));
+
 // JOb Card get
-employerRoute.get("/jobs",asyncHandler(jobcardget));
+// employerRoute.get("/jobs",asyncHandler(jobcardget));
 
 // Job Delete
-employerRoute.delete("/jobs/:jobid",asyncHandler(deleteJob));
+employerRoute.delete("/jobs/:jobid",authCheck,asyncHandler(deleteJob));
 
 // Job Edit
-employerRoute.put("/jobs/:jobid",asyncHandler(editJob));
+employerRoute.put("/jobs/:jobid",authCheck,asyncHandler(editJob));
 
 // Get One Job By ID
 employerRoute.get("/jobs/:id",asyncHandler(getJobById));

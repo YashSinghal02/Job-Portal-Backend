@@ -8,6 +8,8 @@ import cookieParser from "cookie-parser"
 import employerRoute from "./Routes/job.routes.js";
 import ProfileRoute from "./Routes/profile.routes.js";
 import companyRoute from "./Routes/company.routes.js";
+import ApplyRoute from "./Routes/appliedjobs.routes.js";
+import SaveRoute from "./Routes/savedjobs.routes.js";
 
 
 
@@ -53,6 +55,12 @@ app.use("/api/test",testRoute)
 
 // userRoutes
 app.use("/api/user",UserRoute)
+
+// Apply Route
+app.use("/api/jobs",ApplyRoute)
+
+// Save Route
+app.use("/api/savedjobs",SaveRoute)
 
 // employerRoute
 app.use("/api/employer",employerRoute)

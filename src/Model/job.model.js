@@ -17,6 +17,7 @@ const jobSchema = new mongoose.Schema(
     salary: {
       type: String,
       required: true,
+      min: 0,
     },
 
     location: {
@@ -61,6 +62,11 @@ const jobSchema = new mongoose.Schema(
     logo: {
       type: String,
     },
+    postedBy: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User",
+  // required: true, // optional but recommended
+},
   },
   { timestamps: true },
 );

@@ -1,4 +1,4 @@
-import { login, otpsend, refreshtokenController, signUp, testController, } from "../Controllers/user.controller.js";
+import { login, otpsend, refreshtokenController, signUp, testController,getUserData } from "../Controllers/user.controller.js";
 import express from "express"
 import asyncHandler from "../Middlewares/asyncHandler.js";
 import { authCheck } from "../Middlewares/authCheck.js";
@@ -21,5 +21,8 @@ UserRoute.post("/test",authCheck,asyncHandler(testController))
 
 // RefreshToken
 UserRoute.post("/refreshToken", asyncHandler(refreshtokenController));
+
+// GetJobs
+UserRoute.get("/getjobs/:userId", asyncHandler(getUserData));
 
 export default UserRoute;
