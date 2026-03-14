@@ -24,7 +24,8 @@ console.log("env port:",process.env.PORT);
 // Midddlewalre
 app.use(cors({
     origin: "http://localhost:5173", // your frontend URL
-    credentials: true
+    credentials: true,
+    exposedHeaders: ["Authorization"], 
 }));
 
 // Header config

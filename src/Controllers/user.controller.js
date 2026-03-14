@@ -55,7 +55,7 @@ const otpsend = async (req, res) => {
   }
   user.isVerified = true;
   user.otp = null;
-  user.save();
+  await user.save();
   // res.status(200).json({message:"OTP is Verifed"})
   successHandler(res, 200, "success", "OTP is Verifed");
 };
@@ -82,7 +82,7 @@ const login = async (req, res) => {
   }
 
   // jwt token for cookie
-  const data = { id: user._id, role: user.role };
+  const data = { id: user._id, role: user.role,email:user.email,name:user.name,phone:user.phone};
   const accessToken = jwt.sign(data, "qwer", { expiresIn: "15m" });
   console.log(accessToken);
 
@@ -115,20 +115,29 @@ const login = async (req, res) => {
 const refreshtokenController = async (req, res) => {
   const { refreshToken } = req.cookies;
   if (!refreshToken) {
-    return res
-      .status(401)
-      .json({ status: "Failed", message: "No Refresh Token found" });
+    return res.status(401).json({ status: "Failed", message: "No Refresh Token found" });
   }
-  const decode = jwt.verify(refreshToken, "asd");
-  if (!decode) {
-    return res.status(401).json({ status: "Failed", message: "Token Exired" });
+
+  try {
+    const decoded = jwt.verify(refreshToken, "asd"); // verify refresh token
+    // generate new access token with proper expiration
+    const accessToken = jwt.sign(
+      {  id: decoded.id,
+        role: decoded.role,
+        email: decoded.email,
+        name: decoded.name,
+        phone: decoded.phone, },
+      "qwer",
+      { expiresIn: "15m" }
+    );
+
+    // send it in header
+    res.header("Authorization", `Bearer ${accessToken}`);
+    successHandler(res, 200, "success", "Access Token Set Successfully");
+
+  } catch (err) {
+    return res.status(401).json({ status: "Failed", message: "Refresh token expired" });
   }
-  const accessToken = jwt.sign(decode, "qwer");
-  // res.header("Authorization", accessToken);
-  // *******//
-  res.header("Authorization", `Bearer ${accessToken}`);
-  // ******//
-  successHandler(res, 200, "success", "Access Token Set Successful");
 };
 
 // testController
