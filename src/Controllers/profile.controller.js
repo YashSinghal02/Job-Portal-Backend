@@ -53,18 +53,50 @@ const getProfile = async (req, res) => {
 
 
 // Edit Profile only for nme ,email and phone
+// const editProfile = async (req,res)=>{
+
+//  const { profileid } = req.params;
+
+//  const profile = await Profile.findByIdAndUpdate(
+//    profileid,
+//    req.body,
+//    { new:true }
+//  );
+
+//  await User.findByIdAndUpdate(
+//    req.user.id,
+//    {
+//      name:req.body.name,
+//      email:req.body.email,
+//      phone:req.body.phone
+//    }
+//  );
+
+//  successHandler(res,200,"success","Profile Updated",profile)
+
+// }
+
+// This pattern is called Upsert Profile Pattern.
+
+// Benefits:
+
+// ✔ First time → creates profile
+// ✔ Next time → updates profile
+// ✔ No need to track profileId
+// ✔ Cleaner frontend
+
 const editProfile = async (req,res)=>{
 
- const { profileid } = req.params;
+ const userId = req.user.id;
 
- const profile = await Profile.findByIdAndUpdate(
-   profileid,
+ const profile = await Profile.findOneAndUpdate(
+   { userId },
    req.body,
-   { new:true }
+   { new:true, upsert:true } // THIS AUTO CREATES PROFILE
  );
 
  await User.findByIdAndUpdate(
-   req.user.id,
+   userId,
    {
      name:req.body.name,
      email:req.body.email,
@@ -75,6 +107,8 @@ const editProfile = async (req,res)=>{
  successHandler(res,200,"success","Profile Updated",profile)
 
 }
+
+
 // GET PROFILE BY ID
 const getProfileById = async (req, res) => {
 

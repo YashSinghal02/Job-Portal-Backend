@@ -11,14 +11,15 @@ const ProfileRoute = express.Router();
 // Create Profile
 ProfileRoute.post("/",authCheck, roleCheck("employee","employer"),asyncHandler(createProfile));
 
-// Get All Profiles
+// Get All Profiles✅
 ProfileRoute.get("/",authCheck, roleCheck("employee","employer"), asyncHandler(getProfile));
 
 // Get One Profile By Id
 ProfileRoute.get("/:profileid",authCheck, roleCheck("employee","employer"), asyncHandler(getProfileById));
 
-// Edit Profile
-ProfileRoute.put("/:profileid",authCheck, roleCheck("employee","employer"), asyncHandler(editProfile));
+// Edit Profile ✅✅
+// ProfileRoute.put("/:profileid",authCheck, roleCheck("employee","employer"), asyncHandler(editProfile));
+ProfileRoute.put("/",authCheck, roleCheck("employee","employer"), asyncHandler(editProfile));
 
 
 export default ProfileRoute;

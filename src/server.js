@@ -10,6 +10,8 @@ import ProfileRoute from "./Routes/profile.routes.js";
 import companyRoute from "./Routes/company.routes.js";
 import ApplyRoute from "./Routes/appliedjobs.routes.js";
 import SaveRoute from "./Routes/savedjobs.routes.js";
+import {upload} from './Service/storage.js'
+import companyProfileRoute from "./Routes/companyProfile.routes.js";
 
 
 
@@ -71,6 +73,16 @@ app.use("/api/companies",companyRoute)
 
 // Profile Route
 app.use("/api/profile",ProfileRoute)
+
+// CompanyProfile Route
+app.use("/api/company-profile",companyProfileRoute)
+
+// Multer
+app.post("/api/uploads", upload.single("file"), async (req, res) => {
+  console.log(req.file);
+
+  res.send("File Uploaded Successfully");
+});
 
 // Error Handler Middeware
 app.use((err,req,res,next)=>{
