@@ -1,9 +1,9 @@
-import { login, otpsend, refreshtokenController, signUp, testController,getUserData } from "../Controllers/user.controller.js";
+import { login, otpsend, refreshtokenController, signUp, testController,getUserData} from "../Controllers/user.controller.js";
 import express from "express"
 import asyncHandler from "../Middlewares/asyncHandler.js";
 import { authCheck } from "../Middlewares/authCheck.js";
 import { roleCheck } from "../Middlewares/roleCheck.js";
-
+import { upload } from "../Service/storage.js"
 
 const UserRoute = express.Router();
 
@@ -24,5 +24,8 @@ UserRoute.post("/refreshToken", asyncHandler(refreshtokenController));
 
 // GetJobs
 UserRoute.get("/getjobs/:userId", asyncHandler(getUserData));
+
+
+
 
 export default UserRoute;

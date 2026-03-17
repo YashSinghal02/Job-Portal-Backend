@@ -163,26 +163,24 @@ const getUserData=async(req,res)=>{
 
 }
 
+// File Upload
+// const fileUpload = async (req, res) => {
+//   console.log("Upload Request Received");
+
+//   console.log("File Object:", req.file);
+//   console.log("File URL:", req.file.path);
+//   console.log("Public ID:", req.file.filename);
+
+//   if (!req.file) {
+//     throw new Error("File not uploaded");
+//   }
+
+//   res.status(200).json({
+//     message: "File uploaded successfully",
+//     url: req.file.path,
+//     public_id: req.file.filename,
+//   });
+// };
+
 export { signUp, login, otpsend, testController, refreshtokenController,getUserData };
 
-// // Post
-// const signUp= async (req, res) => {
-//   try {
-//     const { name, email, phone, password } = req.body;
-//     console.log(req.body)
-
-//     if (!name || !email || !phone || !password) {
-//       return res.status(400).json({ message: "All Fileds Are Required" });
-//     }
-//   const user = await User.findOne({ email });
-//     if (user) {
-//       return res.status(409).json({ message: "Email already exists" });
-//     }
-
-//     const createUser = await User.create({ name, email, phone, password });
-//     res.json({ message: "SignUp successfully", createUser });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ message: "Internal Sever Error" });
-//   }
-// }
