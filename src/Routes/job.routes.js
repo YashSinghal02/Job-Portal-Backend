@@ -2,6 +2,8 @@ import express from "express";
 import { jobcardget, jobPost,deleteJob,editJob,getJobById,getAllJobs } from "../Controllers/jobcreated.controller.js";
 import asyncHandler from "../Middlewares/asyncHandler.js";
 import { authCheck } from "../Middlewares/authCheck.js";
+import { upload } from "../Service/storage.js";
+
 
 
 const employerRoute=express.Router();
@@ -19,7 +21,8 @@ employerRoute.get("/jobs", asyncHandler(getAllJobs));
 employerRoute.delete("/jobs/:jobid",authCheck,asyncHandler(deleteJob));
 
 // Job Edit
-employerRoute.put("/jobs/:jobid",authCheck,asyncHandler(editJob));
+// employerRoute.put("/jobs/:jobid",authCheck,asyncHandler(editJob));
+employerRoute.put("/jobs/:jobid", authCheck, upload.single("logo"), asyncHandler(editJob));
 
 // Get One Job By ID
 employerRoute.get("/jobs/:id",asyncHandler(getJobById));

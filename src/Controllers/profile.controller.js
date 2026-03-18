@@ -34,21 +34,15 @@ const createProfile = async (req, res) => {
 
 // GET LOGGED-IN USER PROFILE
 const getProfile = async (req, res) => {
+  const profile = await Profile.findOne({ userId: req.user.id }).populate("userId"); // 🔥 THIS LINE
 
- const userId = req.user.id;
-
- const profile = await Profile
-  .findOne({ userId })
-  .populate("userId","name email phone");
-
- successHandler(
-  res,
-  200,
-  "success",
-  "Profile fetched successfully",
-  profile
- );
-
+  successHandler(
+    res,
+    200,
+    "success",
+    "Profile fetched successfully",
+    profile
+  );
 };
 
 

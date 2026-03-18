@@ -84,7 +84,15 @@ const companyProfileSchema = new mongoose.Schema(
 
     instagram: {
       type: String
-    }
+    },
+    // ✅ LOGO
+    companylogo: {
+      type: String, // URL
+    },
+    companylogoId: {
+      type: String, // Cloudinary public_id
+    },
+
   },
   { timestamps: true }
 );

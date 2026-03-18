@@ -5,8 +5,8 @@ import { successHandler } from "../Utils/sucess.js";
 
 // JOb Created
 const jobPost = async (req, res) => {
-  // Why we required user ID because we know when we post a job we know it always posed by the employer for that we also provide a check protected route in front end
   const { userId } = req.params;
+
   const {
     companyName,
     jobTitle,
@@ -38,11 +38,11 @@ const jobPost = async (req, res) => {
   }
 
   const user = await User.findById(userId);
-
   if (!user) {
     throw new CustomError(400, "User Id Not Valid");
   }
 
+  // ✅ CLEAN CREATE
   const job = await JobCreated.create({
     companyName,
     jobTitle,
@@ -55,16 +55,12 @@ const jobPost = async (req, res) => {
     responsibilities,
     qualifications,
     skills,
-    logo,
+    logo, // ✅ per job logo
+    postedBy: userId, // ✅ direct
   });
-  // After create(), the variable job contains the full document returned from the database.
-  // And only Add job id to user
+
   user.createdJobs.push(job._id);
-
   await user.save();
-
-  job.postedBy = userId;
-  job.save();
 
   successHandler(res, 201, "success", "Job created successfully", job);
 };
@@ -109,35 +105,99 @@ const deleteJob = async (req, res) => {
 };
 
 // Job Edit
-const editJob = async (req, res) => {
-  const { id } = req.user;
-  console.log("Logged in user:", req.user);
-  const { jobid } = req.params;
-  if (!jobid) {
-    throw new CustomError(400, "Job Id is Required");
-  }
-  const job = await JobCreated.findById(jobid);
+// const editJob = async (req, res) => {
+//   const { id } = req.user;
+//   console.log("Logged in user:", req.user);
+//   const { jobid } = req.params;
+//   if (!jobid) {
+//     throw new CustomError(400, "Job Id is Required");
+//   }
+//   const job = await JobCreated.findById(jobid);
 
-  if (!job) {
-    throw new CustomError(404, "Job Not Found");
-  }
-  console.log("Job owner:", job.postedBy.toString());
-  //  authorization check (so no anyone could edit)
-  if (job.postedBy.toString() !== id) {
+//   if (!job) {
+//     throw new CustomError(404, "Job Not Found");
+//   }
+//   console.log("Job owner:", job.postedBy.toString());
+//   //  authorization check (so no anyone could edit)
+//   if (job.postedBy.toString() !== id) {
+//     throw new CustomError(403, "You cannot edit this job");
+//   }
+//   const {companyName,jobTitle,salary,location,jobType,experienceLevel,positions,description,responsibilities,qualifications,skills,logo,
+//   } = req.body;
+//   const updatedJob = await JobCreated.findByIdAndUpdate(
+//     jobid,
+//     {companyName,jobTitle,salary,location,jobType,experienceLevel,positions,description,responsibilities,qualifications,skills,logo,
+//     },
+//     { new: true },
+//   );
+//   if (!updatedJob) {
+//     throw new CustomError(404, "Job Not Found");
+//   }
+//   successHandler(res, 200, "success", "Jobs Updated  successfully", updatedJob);
+// };
+
+const editJob = async (req, res) => {
+  const userId = req.user.id;
+  const { jobid } = req.params;
+
+  if (!jobid) throw new CustomError(400, "Job Id is Required");
+
+  const job = await JobCreated.findById(jobid);
+  if (!job) throw new CustomError(404, "Job Not Found");
+
+  if (job.postedBy.toString() !== userId)
     throw new CustomError(403, "You cannot edit this job");
-  }
-  const {companyName,jobTitle,salary,location,jobType,experienceLevel,positions,description,responsibilities,qualifications,skills,logo,
+
+  // ✅ Parse fields from req.body
+  const {
+    companyName,
+    jobTitle,
+    salary,
+    location,
+    jobType,
+    experienceLevel,
+    positions,
+    description,
   } = req.body;
+
+  // ✅ Arrays: split if sent as strings (FormData sends multiple same-name fields as array)
+  const responsibilities = Array.isArray(req.body.responsibilities)
+    ? req.body.responsibilities
+    : [req.body.responsibilities].filter(Boolean);
+
+  const qualifications = Array.isArray(req.body.qualifications)
+    ? req.body.qualifications
+    : [req.body.qualifications].filter(Boolean);
+
+  const skills = Array.isArray(req.body.skills)
+    ? req.body.skills
+    : [req.body.skills].filter(Boolean);
+
+  // ✅ Logo from multer
+  let logo = job.logo; // keep old logo if not uploaded
+  if (req.file) logo = req.file.path;
+
+  // Update
   const updatedJob = await JobCreated.findByIdAndUpdate(
     jobid,
-    {companyName,jobTitle,salary,location,jobType,experienceLevel,positions,description,responsibilities,qualifications,skills,logo,
+    {
+      companyName,
+      jobTitle,
+      salary,
+      location,
+      jobType,
+      experienceLevel,
+      positions,
+      description,
+      responsibilities,
+      qualifications,
+      skills,
+      logo,
     },
-    { new: true },
+    { new: true }
   );
-  if (!updatedJob) {
-    throw new CustomError(404, "Job Not Found");
-  }
-  successHandler(res, 200, "success", "Jobs Updated  successfully", updatedJob);
+
+  successHandler(res, 200, "success", "Job Updated successfully", updatedJob);
 };
 
 // Get One Job By ID

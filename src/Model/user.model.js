@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema(
     appliedJobs:[{type:mongoose.Schema.Types.ObjectId,ref:"JobCreated"}],
     createdJobs:[{type:mongoose.Schema.Types.ObjectId,ref:"JobCreated"}],
     savedJobs:[{type:mongoose.Schema.Types.ObjectId,ref:"JobCreated"}],
+    profile: {type: String,},
+    resume: {type: String,},
+    banner: {type: String,},
+
   },
   {
     timestamps: true,

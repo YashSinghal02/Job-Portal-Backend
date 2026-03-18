@@ -32,30 +32,45 @@ const editCompanyProfile = async (req,res)=>{
 
 }
 
-const getCompanyProfile = async (req,res)=>{
+// const getCompanyProfile = async (req,res)=>{
 
- const userId = req.user.id;
+//  const userId = req.user.id;
 
- if(!userId){
-  throw new CustomError(400,"User not authenticated");
- }
+//  if(!userId){
+//   throw new CustomError(400,"User not authenticated");
+//  }
 
- const company = await CompanyProfile
-  .findOne({ userId })
-  .populate("userId","name email phone");
+//  const company = await CompanyProfile.findOne({ userId }).populate("userId","name email phone profile banner")
 
- if(!company){
-  throw new CustomError(404,"Company profile not found");
- }
+//  if(!company){
+//   throw new CustomError(404,"Company profile not found");
+//  }
 
- successHandler(
-  res,
-  200,
-  "success",
-  "Company profile fetched successfully",
-  company
- );
+//  successHandler(
+//   res,
+//   200,
+//   "success",
+//   "Company profile fetched successfully",
+//   company
+//  );
 
-}
+// }
+const getCompanyProfile = async (req, res) => {
+  const userId = req.user.id;
+
+  let company = await CompanyProfile.findOne({ userId }).populate(
+    "userId",
+    "name email profile banner"
+  );
+
+  if (!company) {
+    company = await CompanyProfile.create({
+      userId,
+      companyName: "My Company",
+    });
+  }
+
+  successHandler(res, 200, "success", "Company fetched", company);
+};
 
 export { editCompanyProfile, getCompanyProfile };
