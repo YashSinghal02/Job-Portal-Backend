@@ -33,8 +33,30 @@ const createProfile = async (req, res) => {
 
 
 // GET LOGGED-IN USER PROFILE
+// const getProfile = async (req, res) => {
+//   const profile = await Profile.findOne({ userId: req.user.id }).populate("userId"); // 🔥 THIS LINE
+
+//   successHandler(
+//     res,
+//     200,
+//     "success",
+//     "Profile fetched successfully",
+//     profile
+//   );
+// };
+
+
 const getProfile = async (req, res) => {
-  const profile = await Profile.findOne({ userId: req.user.id }).populate("userId"); // 🔥 THIS LINE
+  let profile = await Profile.findOne({ userId: req.user.id }).populate("userId");
+
+  // 🔥 AUTO CREATE IF NOT EXISTS
+  if (!profile) {
+    profile = await Profile.create({
+      userId: req.user.id,
+    });
+
+    profile = await Profile.findById(profile._id).populate("userId");
+  }
 
   successHandler(
     res,
@@ -44,7 +66,6 @@ const getProfile = async (req, res) => {
     profile
   );
 };
-
 
 // Edit Profile only for nme ,email and phone
 // const editProfile = async (req,res)=>{
