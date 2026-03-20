@@ -26,15 +26,17 @@ console.log("env port:", process.env.PORT);
 // Midddlewalre
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend URL
+    origin: [
+      "http://localhost:5173",
+      "https://hirebase-app.vercel.app"
+    ],
     credentials: true,
     exposedHeaders: ["Authorization"],
-  }),
+  })
 );
-
 // Header config
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.setHeader("Access-Control-Allow-Origin", "https://hirebase-app.vercel.app");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   res.setHeader("Access-Control-Expose-Headers", "Authorization");
