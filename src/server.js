@@ -41,6 +41,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// default get method
+app.get("/",(req,res)=>{
+  res.send("Server is Running")
+});
+
 // cookieParser in headder
 app.use(cookieParser());
 
