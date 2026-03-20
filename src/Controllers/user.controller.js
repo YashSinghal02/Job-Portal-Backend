@@ -83,10 +83,16 @@ const login = async (req, res) => {
 
   // jwt token for cookie
   const data = { id: user._id, role: user.role,email:user.email,name:user.name,phone:user.phone};
-  const accessToken = jwt.sign(data, "qwer", { expiresIn: "15m" });
+  // const accessToken = jwt.sign(data, "qwer", { expiresIn: "15m" });
+  const accessToken = jwt.sign(data, process.env.ACCESS_TOKEN_SECRET, {
+  expiresIn: "15m",
+});
   console.log(accessToken);
 
-  const refreshToken = jwt.sign(data, "asd", { expiresIn: "30d" });
+  // const refreshToken = jwt.sign(data, "asd", { expiresIn: "30d" });
+  const refreshToken = jwt.sign(data, process.env.REFRESH_TOKEN_SECRET, {
+  expiresIn: "30d",
+});
 
   // set jwt token in cookies
   // res.cookie("token",refreshToken)
@@ -119,7 +125,7 @@ const refreshtokenController = async (req, res) => {
   }
 
   try {
-    const decoded = jwt.verify(refreshToken, "asd"); // verify refresh token
+    const decoded = jwt.verify(refreshToken,process.env.REFRESH_TOKEN_SECRET); // verify refresh token
     // generate new access token with proper expiration
     const accessToken = jwt.sign(
       {  id: decoded.id,
@@ -127,7 +133,7 @@ const refreshtokenController = async (req, res) => {
         email: decoded.email,
         name: decoded.name,
         phone: decoded.phone, },
-      "qwer",
+       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" }
     );
 

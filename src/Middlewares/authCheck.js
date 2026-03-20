@@ -17,7 +17,7 @@ export const authCheck=(req,res,next)=>{
         // Checks if token is expired
         // Checks if secret key is correct
         // Decodes payload
-        const data=jwt.verify(token,"qwer");
+        const data = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         if(!data){
             return res.status(401).json({status:"Failed",message:"Invalid Token"})
         }
