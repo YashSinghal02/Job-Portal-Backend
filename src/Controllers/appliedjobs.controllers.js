@@ -22,9 +22,14 @@ const applyJob = async (req, res) => {
     applicant: userId
   });
 
-  if (alreadyApplied) {
-    throw new CustomError(400, "Already applied for this job");
-  }
+ if (alreadyApplied) {
+  return successHandler(
+    res,
+    200,
+    "success",
+    "Already Applied"
+  );
+}
 
   const application = await AppliedJob.create({
     job: jobid,

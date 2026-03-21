@@ -8,9 +8,18 @@ const saveJob = async (req, res) => {
   const { jobid } = req.params;
 
   const alreadySaved = await SavedJob.findOne({ job: jobid, user: userId });
+  // if (alreadySaved) {
+  //   throw new CustomError(400, "Job already saved");
+  // }
+
   if (alreadySaved) {
-    throw new CustomError(400, "Job already saved");
-  }
+  return successHandler(
+    res,
+    200,
+    "success",
+    "Already Saved"
+  );
+}
 
   const saved = await SavedJob.create({ job: jobid, user: userId });
 
