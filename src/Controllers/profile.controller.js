@@ -126,13 +126,17 @@ const editProfile = async (req,res)=>{
 
 // GET PROFILE BY ID
 const getProfileById = async (req, res) => {
-
   const { profileid } = req.params;
 
-  const profile = await Profile.findById(profileid);
+  let profile = await Profile.findOne({ userId: profileid })
+    .populate("userId", "name email profile banner phone resume gitHub linkedIn instagram");
 
+  // ✅ If profile doesn't exist → create empty one
   if (!profile) {
-    throw new CustomError(404, "Profile not found");
+    profile = await Profile.create({ userId: profileid });
+
+    profile = await Profile.findOne({ userId: profileid })
+      .populate("userId", "name email profile banner phone resume gitHub linkedIn instagram");
   }
 
   successHandler(res, 200, "success", "Profile fetched successfully", profile);
