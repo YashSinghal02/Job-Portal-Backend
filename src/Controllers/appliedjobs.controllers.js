@@ -21,7 +21,7 @@ const applyJob = async (req, res) => {
   });
 
   if (alreadyApplied) {
-    return successHandler(res, 200, "success", "Already Applied");
+    return successHandler(res, 400, "fail", "Already Applied");
   }
 
   const application = await AppliedJob.create({

@@ -4,17 +4,19 @@ import asyncHandler from "../Middlewares/asyncHandler.js";
 import { authCheck } from "../Middlewares/authCheck.js";
 import { roleCheck } from "../Middlewares/roleCheck.js";
 import { upload } from "../Service/storage.js"
+import { authLimiter } from "../Utils/limiter.js";
+
 
 const UserRoute = express.Router();
 
 // SignUp
-UserRoute.post("/signup",asyncHandler(signUp));
+UserRoute.post("/signup",authLimiter,asyncHandler(signUp));
 
 // OTP
-UserRoute.post("/otp",asyncHandler(otpsend));
+UserRoute.post("/otp",authLimiter,asyncHandler(otpsend));
 
 // Login
-UserRoute.post("/login",asyncHandler(login))
+UserRoute.post("/login",authLimiter,asyncHandler(login))
 
 // test
 UserRoute.post("/test",authCheck,asyncHandler(testController))

@@ -15,8 +15,8 @@ const saveJob = async (req, res) => {
   if (alreadySaved) {
   return successHandler(
     res,
-    200,
-    "success",
+    400,
+    "fail",
     "Already Saved"
   );
 }

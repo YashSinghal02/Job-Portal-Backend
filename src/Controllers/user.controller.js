@@ -18,7 +18,7 @@ const signUp = async (req, res) => {
   const user = await User.findOne({ email });
   if (user) {
     // throw new CustomError(400, "Email already exists");
-    return successHandler(res,200,"fail","Email already exists");
+    return successHandler(res,400,"fail","Email already exists");
   }
 
   // creating OTP
@@ -55,7 +55,7 @@ const otpsend = async (req, res) => {
     // throw new CustomError(400, "Invalid OTP");
       return successHandler(
     res,
-    200,
+    400,
     "fail",
     "Invalid OTP"
   );
@@ -80,14 +80,14 @@ const login = async (req, res) => {
 
   if (!user) {
     // throw new CustomError(404, "Cannot find email, try signing up");
-    return successHandler(res,200,"fail","Cannot find email, try signing up");
+   return successHandler(res,400,"fail","Cannot find email, try signing up");
   }
 
   const result = await bcrypt.compare(password, user.password);
 
   if (!result) {
     // throw new CustomError(400, "Incorrect Password");
-      return successHandler(res,200,"fail","Incorrect Password");
+      return successHandler(res,400,"fail","Incorrect Password");
   }
 
   // jwt token for cookie

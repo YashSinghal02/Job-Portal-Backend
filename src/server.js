@@ -14,6 +14,9 @@ import SaveRoute from "./Routes/savedjobs.routes.js";
 // import { upload } from "./Service/storage.js";
 import companyProfileRoute from "./Routes/companyProfile.routes.js";
 import UploadRoute from "./Routes/upload.routes.js";
+// import { limiter } from "./Utils/limiter.js";
+import {uploadLimiter} from "./Utils/limiter.js"
+import { requestLogger } from "./Middlewares/logger.middleware.js";
 
 
 
@@ -62,32 +65,39 @@ const PORT = process.env.PORT || 3001;
 // res.send("Srver is running");
 // })
 
+// Logger
+app.use(requestLogger)
+
 // Routes
 app.use("/api/test", testRoute);
 
+// Auth routes
 // userRoutes
 app.use("/api/user", UserRoute);
 
+// Employee Routes
 // Apply Route
 app.use("/api/jobs", ApplyRoute);
 
 // Save Route
 app.use("/api/savedjobs", SaveRoute);
 
+// Profile Route
+app.use("/api/profile", ProfileRoute);
+
+// Employeer Routes
 // employerRoute
 app.use("/api/employer", employerRoute);
 
 // Company Route
 app.use("/api/companies", companyRoute);
 
-// Profile Route
-app.use("/api/profile", ProfileRoute);
 
 // CompanyProfile Route
 app.use("/api/company-profile", companyProfileRoute);
 
 // fileUpload
-app.use("/api/uploads", UploadRoute);
+app.use("/api/uploads",uploadLimiter, UploadRoute);
 
 
 // Error Handler Middeware

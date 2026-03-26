@@ -3,10 +3,12 @@ import { editCompanyProfile,getCompanyProfile } from "../Controllers/companyProf
 import asyncHandler from "../Middlewares/asyncHandler.js";
 import { authCheck } from "../Middlewares/authCheck.js";
 import { roleCheck } from "../Middlewares/roleCheck.js";
+import { actionLimiter } from "../Utils/limiter.js";
+
 
 const companyProfileRoute = express.Router();
 
-companyProfileRoute.put("/", authCheck, roleCheck("employer"), asyncHandler(editCompanyProfile));
+companyProfileRoute.put("/", authCheck, roleCheck("employer"),actionLimiter, asyncHandler(editCompanyProfile));
 
 companyProfileRoute.get("/",authCheck,roleCheck("employer"),asyncHandler(getCompanyProfile));
 
