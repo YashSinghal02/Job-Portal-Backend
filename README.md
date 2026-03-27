@@ -1,44 +1,60 @@
 # HireBase – Job Portal Backend
 
-Backend API for a Job Portal application where **employers can post jobs** and **employees can browse, apply, and save jobs**.
-This project provides a structured REST API using Node.js, Express.js, and MongoDB.
+Backend API for HireBase, a job portal application where employers can post jobs and candidates can browse, apply, and save jobs.
+
+This project is built using Node.js, Express.js, and MongoDB, following a structured and scalable REST API architecture.
 
 ---
 
-## Tech Stack
+## 🛠 Tech Stack
 
-* Node.js
-* Express.js
-* MongoDB
-* Mongoose
-* REST API Architecture
-
----
-
-## Features
-
-* User Authentication
-* Employer can create job postings
-* Employees can apply for jobs
-* Save jobs functionality
-* RESTful API structure
-* Error handling middleware
-* Modular folder structure
+- Node.js  
+- Express.js  
+- MongoDB  
+- Mongoose  
+- JWT Authentication  
 
 ---
 
-## Folder Structure
+## ✨ Features
 
-```
+### 🔐 Authentication & Authorization
+- JWT-based authentication  
+- Secure login and signup  
+- Role-Based Access Control (Employer & Candidate)  
+- Protected API routes  
+
+---
+
+### 💼 Job Management
+- Employers can create and manage job postings  
+- Candidates can browse available jobs  
+- Apply to jobs  
+- Save jobs for later  
+
+---
+
+### ⚙️ System Design
+- RESTful API architecture  
+- Modular folder structure (Controller, Service, Routes, etc.)  
+- Centralized error handling middleware  
+- API rate limiting for security and abuse prevention  
+
+---
+
+## 📁 Folder Structure
+
+```bash
 src/
- ├── Controllers
- ├── Database
- ├── Middlewares
- ├── Model
- ├── Routes
- ├── Service
- ├── Templates
- └── Utils
+├── Controllers
+├── Database
+├── Middlewares
+├── Model
+├── Routes
+├── Service
+├── Templates
+└── Utils
+
 ```
 
 ---
@@ -94,6 +110,7 @@ http://localhost:5000
 * Apply for Jobs
 * Save Jobs
 * Manage Job Posts
+* Authentication (Login / Signup)
 
 ---
 
