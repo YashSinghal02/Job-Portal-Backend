@@ -60,7 +60,7 @@ const getCompanyProfile = async (req, res) => {
 
   let company = await CompanyProfile.findOne({ userId }).populate(
     "userId",
-    "name email profile banner"
+    "name email phone profile banner"
   );
 
   if (!company) {

@@ -1,4 +1,4 @@
-import { login, otpsend, refreshtokenController, signUp, testController,getUserData} from "../Controllers/user.controller.js";
+import { login, otpsend, refreshtokenController, signUp, testController,getUserData, changePasswordProfile} from "../Controllers/user.controller.js";
 import express from "express"
 import asyncHandler from "../Middlewares/asyncHandler.js";
 import { authCheck } from "../Middlewares/authCheck.js";
@@ -27,6 +27,8 @@ UserRoute.post("/refreshToken", asyncHandler(refreshtokenController));
 // GetJobs
 UserRoute.get("/getjobs/:userId", asyncHandler(getUserData));
 
+// changePassword FOr Profile 
+UserRoute.post("/change-password",authLimiter,authCheck,asyncHandler(changePasswordProfile))
 
 
 

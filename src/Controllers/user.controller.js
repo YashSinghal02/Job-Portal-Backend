@@ -178,24 +178,27 @@ const getUserData=async(req,res)=>{
 
 }
 
-// File Upload
-// const fileUpload = async (req, res) => {
-//   console.log("Upload Request Received");
+// changePassword FOr Profile 
+const changePasswordProfile = async (req, res) => {
+  const { newPassword } = req.body;
 
-//   console.log("File Object:", req.file);
-//   console.log("File URL:", req.file.path);
-//   console.log("Public ID:", req.file.filename);
+  if (!newPassword) {
+    throw new CustomError(400, "Password is required");
+  }
 
-//   if (!req.file) {
-//     throw new Error("File not uploaded");
-//   }
+  const user = await User.findById(req.user.id);
 
-//   res.status(200).json({
-//     message: "File uploaded successfully",
-//     url: req.file.path,
-//     public_id: req.file.filename,
-//   });
-// };
+  if (!user) {
+    throw new CustomError(404, "User not found");
+  }
 
-export { signUp, login, otpsend, testController, refreshtokenController,getUserData };
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+  user.password = hashedPassword;
+  await user.save();
+
+  successHandler(res, 200, "success", "Password updated successfully");
+};
+
+export { signUp, login, otpsend, testController, refreshtokenController,getUserData,changePasswordProfile };
 

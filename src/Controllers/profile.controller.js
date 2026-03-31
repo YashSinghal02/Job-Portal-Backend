@@ -31,25 +31,10 @@ const createProfile = async (req, res) => {
 };
 
 
-
-// GET LOGGED-IN USER PROFILE
-// const getProfile = async (req, res) => {
-//   const profile = await Profile.findOne({ userId: req.user.id }).populate("userId"); // 🔥 THIS LINE
-
-//   successHandler(
-//     res,
-//     200,
-//     "success",
-//     "Profile fetched successfully",
-//     profile
-//   );
-// };
-
-
 const getProfile = async (req, res) => {
   let profile = await Profile.findOne({ userId: req.user.id }).populate("userId");
 
-  // 🔥 AUTO CREATE IF NOT EXISTS
+  // AUTO CREATE IF NOT EXISTS
   if (!profile) {
     profile = await Profile.create({
       userId: req.user.id,
@@ -125,6 +110,7 @@ const editProfile = async (req,res)=>{
 
 
 // GET PROFILE BY ID
+//  Employer can see who applicant applied for his job only and view his profile only 
 const getProfileById = async (req, res) => {
   const { profileid } = req.params;
 

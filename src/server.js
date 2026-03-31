@@ -5,6 +5,7 @@ dotenv.config();
 import { dbconnect } from "./Database/dbconnect.js";
 import testRoute from "./Routes/test.routes.js";
 import UserRoute from "./Routes/user.routes.js";
+import ForgetRoute from "./Routes/forgetpassword.routes.js";
 import cookieParser from "cookie-parser";
 import employerRoute from "./Routes/job.routes.js";
 import ProfileRoute from "./Routes/profile.routes.js";
@@ -17,6 +18,7 @@ import UploadRoute from "./Routes/upload.routes.js";
 // import { limiter } from "./Utils/limiter.js";
 import {uploadLimiter} from "./Utils/limiter.js"
 import { requestLogger } from "./Middlewares/logger.middleware.js";
+
 
 
 
@@ -75,6 +77,9 @@ app.use("/api/test", testRoute);
 // userRoutes
 app.use("/api/user", UserRoute);
 
+
+app.use("/api/forget",ForgetRoute)
+
 // Employee Routes
 // Apply Route
 app.use("/api/jobs", ApplyRoute);
@@ -111,6 +116,17 @@ app.use("/api/uploads",uploadLimiter, UploadRoute);
 // });
 
 app.use((err, req, res, next) => {
+
+  // ✅ Mongo duplicate error
+  if (err.code === 11000) {
+    const field = Object.keys(err.keyValue)[0];
+
+    return res.status(400).json({
+      message: `${field} already exists`,
+    });
+  }
+
+// Global Error
   console.log("Full Error:", err);   // 🔥 see full error
   console.log("Error Message:", err?.message);
 
