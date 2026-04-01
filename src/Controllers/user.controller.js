@@ -94,7 +94,8 @@ const login = async (req, res) => {
   const data = { id: user._id, role: user.role,email:user.email,name:user.name,phone:user.phone};
   // const accessToken = jwt.sign(data, "qwer", { expiresIn: "15m" });
   const accessToken = jwt.sign(data, process.env.ACCESS_TOKEN_SECRET, {
-  expiresIn: "15m",
+  expiresIn: "1m",
+  jwtid: Date.now().toString()
 });
   console.log(accessToken);
 
@@ -143,7 +144,9 @@ const refreshtokenController = async (req, res) => {
         name: decoded.name,
         phone: decoded.phone, },
        process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "1m",
+         jwtid: Date.now().toString() // ✅ unique id
+       }
     );
 
     // send it in header

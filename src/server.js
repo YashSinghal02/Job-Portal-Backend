@@ -24,6 +24,7 @@ import { requestLogger } from "./Middlewares/logger.middleware.js";
 
 // App is created
 const app = express();
+app.set("trust proxy", 1); 
 // Database Connected
 dbconnect();
 
