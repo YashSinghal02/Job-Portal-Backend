@@ -100,6 +100,17 @@ The server should now be running on:
 ```
 http://localhost:5000
 ```
+---
+
+## 🔗 Frontend
+
+The backend powers the ChitChat frontend application.
+
+**Frontend Repository:**
+https://github.com/YashSinghal02/HireBase-Frontend
+
+**Live Application:**
+https://hirebase.yashsinghal.co.in
 
 ---
 
