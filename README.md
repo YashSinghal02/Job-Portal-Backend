@@ -104,7 +104,7 @@ http://localhost:5000
 
 ## 🔗 Frontend
 
-The backend powers the ChitChat frontend application.
+The backend powers the HireBase frontend application.
 
 **Frontend Repository:**
 https://github.com/YashSinghal02/HireBase-Frontend
