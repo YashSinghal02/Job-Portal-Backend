@@ -117,7 +117,7 @@ const getProfileById = async (req, res) => {
   let profile = await Profile.findOne({ userId: profileid })
     .populate("userId", "name email profile banner phone resume gitHub linkedIn instagram");
 
-  // ✅ If profile doesn't exist → create empty one
+  //  If profile doesn't exist → create empty one
   if (!profile) {
     profile = await Profile.create({ userId: profileid });
 

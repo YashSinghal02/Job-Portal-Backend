@@ -34,7 +34,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://hirebase-app.vercel.app"
+      "https://hirebase.yashsinghal.co.in"
     ],
     credentials: true,
     exposedHeaders: ["Authorization"],
@@ -42,7 +42,7 @@ app.use(
 );
 // Header config
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://hirebase-app.vercel.app");
+  res.setHeader("Access-Control-Allow-Origin", "https://hirebase.yashsinghal.co.in");
   // res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
@@ -118,7 +118,7 @@ app.use("/api/uploads",uploadLimiter, UploadRoute);
 
 app.use((err, req, res, next) => {
 
-  // ✅ Mongo duplicate error
+  //  Mongo duplicate error
   if (err.code === 11000) {
     const field = Object.keys(err.keyValue)[0];
 

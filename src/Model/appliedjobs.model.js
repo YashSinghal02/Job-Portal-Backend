@@ -17,7 +17,7 @@ const appliedJobSchema = new mongoose.Schema({
   }
 });
 
-// ✅ ADD THIS HERE
+//  ADD THIS HERE
 appliedJobSchema.index({ job: 1, applicant: 1 }, { unique: true });
 
 export const AppliedJob= mongoose.model("AppliedJob", appliedJobSchema);

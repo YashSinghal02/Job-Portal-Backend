@@ -42,7 +42,7 @@ const jobPost = async (req, res) => {
     throw new CustomError(400, "User Id Not Valid");
   }
 
-  // ✅ CLEAN CREATE
+  //  CLEAN CREATE
   const job = await JobCreated.create({
     companyName,
     jobTitle,
@@ -55,8 +55,8 @@ const jobPost = async (req, res) => {
     responsibilities,
     qualifications,
     skills,
-    logo, // ✅ per job logo
-    postedBy: userId, // ✅ direct
+    logo, //  per job logo
+    postedBy: userId, //  direct
   });
 
   user.createdJobs.push(job._id);
@@ -148,7 +148,7 @@ const editJob = async (req, res) => {
   if (job.postedBy.toString() !== userId)
     throw new CustomError(403, "You cannot edit this job");
 
-  // ✅ Parse fields from req.body
+  //  Parse fields from req.body
   const {
     companyName,
     jobTitle,
@@ -160,7 +160,7 @@ const editJob = async (req, res) => {
     description,
   } = req.body;
 
-  // ✅ Arrays: split if sent as strings (FormData sends multiple same-name fields as array)
+  //  Arrays: split if sent as strings (FormData sends multiple same-name fields as array)
   const responsibilities = Array.isArray(req.body.responsibilities)
     ? req.body.responsibilities
     : [req.body.responsibilities].filter(Boolean);
@@ -173,7 +173,7 @@ const editJob = async (req, res) => {
     ? req.body.skills
     : [req.body.skills].filter(Boolean);
 
-  // ✅ Logo from multer
+  //  Logo from multer
   let logo = job.logo; // keep old logo if not uploaded
   if (req.file) logo = req.file.path;
 

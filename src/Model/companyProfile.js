@@ -85,7 +85,7 @@ const companyProfileSchema = new mongoose.Schema(
     instagram: {
       type: String
     },
-    // ✅ LOGO
+    //  LOGO
     companylogo: {
       type: String, // URL
     },

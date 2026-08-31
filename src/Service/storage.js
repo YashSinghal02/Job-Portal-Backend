@@ -11,7 +11,7 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
 });
 
-// ✅ File Filter
+//  File Filter
 const fileFilter = (req, file, cb) => {
   const allowedTypes = [
     "image/jpeg",
@@ -28,7 +28,7 @@ const fileFilter = (req, file, cb) => {
   cb(null, true);
 };
 
-// ✅ Storage
+//  Storage
 const storage = new CloudinaryStorage({
   cloudinary,
   params: async (req, file) => {
@@ -47,7 +47,7 @@ const storage = new CloudinaryStorage({
       case "companylogo":
         folder = "companylogo";
         break;
-      case "logo": // ✅ Job logo field
+      case "logo": //  Job logo field
         folder = "companylogo";
         break;
       case "file":

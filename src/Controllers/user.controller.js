@@ -145,7 +145,7 @@ const refreshtokenController = async (req, res) => {
         phone: decoded.phone, },
        process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m",
-         jwtid: Date.now().toString() // ✅ unique id
+         jwtid: Date.now().toString() //  unique id
        }
     );
 console.log("Retrying RefreshToken API")
@@ -205,3 +205,19 @@ const changePasswordProfile = async (req, res) => {
 
 export { signUp, login, otpsend, testController, refreshtokenController,getUserData,changePasswordProfile };
 
+// "When the user logs in, the server first checks whether the email and password are valid. If they are correct, the server creates an access token containing user information like the user's ID and role. The access token is short-lived, for example 15 minutes, and is sent to the client in the response header. The server also creates a refresh token with a longer expiry, such as 30 days, and stores it in a cookie.
+
+// (Part-2)
+// The authorization flow starts after the user logs in successfully. The backend verifies the user's credentials and generates JWT tokens. JWT authentication generally uses two tokens: an access token and a refresh token.
+
+// The access token has a short expiry time, such as 10 or 15 minutes. Its purpose is to access protected APIs. Because it expires quickly, even if someone steals it, the damage is limited.
+
+// The refresh token has a longer expiry time, for example 30 days. It is used only to generate a new access token when the old one expires.
+
+// In my project, I send the access token in the Authorization header and the refresh token in an HTTP cookie. If a token is stored in a cookie, the browser automatically sends it with requests to the same site. If it is stored in local storage, session storage, or memory, the frontend must manually attach it to the Authorization header for each protected request.
+
+// When the access token expires, the backend returns a 401 Unauthorized response. On the frontend, an Axios interceptor catches this 401 response and automatically calls the refresh token API.
+
+// The backend reads the refresh token from req.cookies and verifies it using the refresh token secret. If the refresh token is valid, the backend generates a new access token and sends it back to the frontend. The frontend stores the new access token and retries the original request automatically. Because of this, the user usually does not notice that the access token expired and can continue using the application without logging in again.
+
+// This process continues until the refresh token expires, for example after 30 days. Once the refresh token has expired or is invalid, the user must log in again."

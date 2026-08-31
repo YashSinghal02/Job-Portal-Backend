@@ -2,21 +2,6 @@ import { User } from "../Model/user.model.js";
 import { CustomError } from "../Utils/ErrorClass.js";
 import { successHandler } from "../Utils/sucess.js";
 
-// File Upload
-// const fileUpload = async (req, res) => {
-//   console.log("🚀 Upload controller triggered");
-//   console.log("File Object:", req.file);
-
-//   if (!req.file) {
-//     throw new Error("File not uploaded");
-//   }
-
-//   res.status(200).json({
-//     message: "File uploaded successfully",
-//     url: req.file.path,
-//     public_id: req.file.filename,
-//   });
-// };
 
 const fileUpload = async (req, res) => {
   console.log("🚀 Upload controller triggered");
@@ -38,17 +23,17 @@ const fileUpload = async (req, res) => {
     throw new CustomError(404, "User Not Found");
   }
 
-  // ✅ Profile
+  //  Profile
   if (req.files?.profile) {
     user.profile = req.files.profile[0].path;
   }
 
-  // ✅ Banner
+  //  Banner
   if (req.files?.banner) {
     user.banner = req.files.banner[0].path;
   }
 
-  // ✅ Resume
+  //  Resume
   if (req.files?.resume) {
     user.resume = req.files.resume[0].path;
   }

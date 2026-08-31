@@ -9,13 +9,13 @@ const logger = winston.createLogger({
   ),
 
   transports: [
-    // ✅ Log errors separately
+    //  Log errors separately
     new winston.transports.File({ filename: "logs/error.log", level: "error" }),
 
-    // ✅ Log all requests
+    //  Log all requests
     new winston.transports.File({ filename: "logs/combined.log" }),
 
-    // ✅ Show logs in console (dev)
+    //  Show logs in console (dev)
     new winston.transports.Console({
       format: winston.format.simple(),
     }),

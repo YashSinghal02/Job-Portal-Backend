@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 
 export const SendEmail = async (receiver, subject, template) => {
   try {
-    // ✅ Create transporter INSIDE function (important fix)
+    //  Create transporter INSIDE function (important fix)
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 587,
@@ -13,19 +13,19 @@ export const SendEmail = async (receiver, subject, template) => {
       },
     });
 
-    // ✅ Debug logs (remove later)
+    //  Debug logs (remove later)
     console.log("EMAIL_USER:", process.env.EMAIL_USER);
     console.log(
       "EMAIL_PASS:",
       process.env.EMAIL_PASS ? "Loaded" : "Missing"
     );
 
-    // ✅ Verify connection (optional but useful)
+    //  Verify connection (optional but useful)
     await transporter.verify();
 
-    console.log("✅ SMTP Server is ready");
+    console.log(" SMTP Server is ready");
 
-    // ✅ Send email
+    //  Send email
     const info = await transporter.sendMail({
       from: `"HireBase" <${process.env.EMAIL_USER}>`,
       to: receiver,
@@ -33,13 +33,13 @@ export const SendEmail = async (receiver, subject, template) => {
       html: template,
     });
 
-    console.log("✅ Email sent:", info.messageId);
+    console.log(" Email sent:", info.messageId);
     return true;
 
   } catch (error) {
     console.log("❌ Email Error:", error.message);
 
-    // ✅ VERY IMPORTANT: don't crash server
+    //  VERY IMPORTANT: don't crash server
     return false;
   }
 };

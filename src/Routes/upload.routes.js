@@ -8,7 +8,7 @@ import { roleCheck } from "../Middlewares/roleCheck.js";
 
 const UploadRoute = express.Router();
 
-// ✅ USER FILES (profile/banner/resume)
+//  USER FILES (profile/banner/resume)
 UploadRoute.post(
   "/user/:userId",
   authCheck,
@@ -21,7 +21,7 @@ UploadRoute.post(
   asyncHandler(fileUpload)
 );
 
-// ✅ SINGLE FILE (LOGO)
+//  SINGLE FILE (LOGO)
 UploadRoute.post(
   "/single",
   authCheck,
